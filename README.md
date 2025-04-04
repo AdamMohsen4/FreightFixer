@@ -15,9 +15,44 @@ AI-powered tool designed to detect and correct misspelled shipping destination d
   - **Database:** PostgreSQL (relational data)
   - **Other Tools:** Git for version control
 
+## Running the Application
 
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (v6 or higher)
 
-    ## ML Development
+### Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/FreightFixer.git
+cd FreightFixer
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+### Development
+To run the application in development mode:
+```bash
+npm run dev
+```
+
+This will:
+- Compile the TypeScript files
+- Start the Electron application
+- Open the development tools (if in development mode)
+
+### Production Build
+To create a production build:
+```bash
+npm run build
+```
+
+The compiled files will be available in the `dist` directory.
+
+   ## ML Development
 
 - **Data Collection & Preprocessing:**
   - Collect real-world shipment data (or mock data), including:
