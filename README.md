@@ -16,4 +16,13 @@ AI-powered tool designed to detect and correct misspelled shipping destination d
   - **Other Tools:** Git for version control
 
 
-    
+
+    ## ML Development
+
+- **Data Collection & Preprocessing:**
+  - Collect real-world shipment data (or mock data), including:
+    - Addresses (correct and incorrect), cities, postal codes, volumes, etc.
+  - Preprocess data to:
+    - Remove duplicates and irrelevant entries.
+    - Standardize formats (e.g., street abbreviations, casing, header uniformity).
+    - Handle missing or incomplete entries with appropriate strategies.
