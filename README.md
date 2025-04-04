@@ -26,3 +26,12 @@ AI-powered tool designed to detect and correct misspelled shipping destination d
     - Remove duplicates and irrelevant entries.
     - Standardize formats (e.g., street abbreviations, casing, header uniformity).
     - Handle missing or incomplete entries with appropriate strategies.
+   
+   - **Model Deployment:**
+  - Package the trained model using Flask 
+  - Create an API endpoint to:
+    - Accept shipment data inputs.
+    - Return suggested corrections with confidence scores.
+
+
+
