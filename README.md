@@ -9,7 +9,7 @@ AI-powered tool designed to detect and correct misspelled shipping destination d
    -  Batch processing for large datasets.
     
 **Tech Stack:**
-  - **Languages:** Python, JavaScript(?)/TypeScript
+  - **Languages:** Python, TypeScript
   - **Machine Learning:** scikit-learn, PyTorch; (spaCy) for NLP tasks
   - **Backend Framework:** Flask for RESTful API development
   - **Database:** PostgreSQL (relational data)
