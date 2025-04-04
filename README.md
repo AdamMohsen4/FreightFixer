@@ -9,10 +9,12 @@ AI-powered tool designed to detect and correct misspelled shipping destination d
    -  Batch processing for large datasets.
     
 **Tech Stack:**
-  - **Languages:** Python, TypeScript
+  - **Languages:** Python, TypeScript, HTML
+  - **Dependencies:**
   - **Machine Learning:** scikit-learn, PyTorch; (spaCy) for NLP tasks
   - **Backend Framework:** Flask for RESTful API development
   - **Database:** PostgreSQL (relational data)
+
   - **Other Tools:** Git for version control
 
 ## Running the Application
@@ -52,7 +54,7 @@ npm run build
 
 The compiled files will be available in the `dist` directory.
 
-   ## ML Development
+## ML Development
 
 - **Data Collection & Preprocessing:**
   - Collect real-world shipment data (or mock data), including:
