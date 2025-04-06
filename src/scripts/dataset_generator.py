@@ -44,6 +44,11 @@ def wrong_postal_code(postal_code: str) -> str:
     digit = str(random.randint(0,9))
     return postal_code[:i] + digit + postal_code[i+1:]
 
+def wrong_city() -> str:
+   return fake.city()
+
+def change_case(text: str) -> str:
+    return text.upper() if random.random() < 0.5 else text.lower() 
 
 
 # Apply multiple corruptions
