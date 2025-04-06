@@ -34,6 +34,11 @@ def remove_random_character(text: str) -> str:
     i = random.randint(0, len(text)-1)
     return text[:i] + text[i+1:]
 
+def add_random_char(text: str) -> str:
+    i = random.randint(0, len(text)) # Choose insertion point
+    c = random.choice(string.ascii_letters) # Choose random letter
+    return text[:i] + c + text[i:] 
+
 # Apply multiple corruptions
 def corrupt_text(text: str, corruption_funcs: list) -> str:
     for func in corruption_funcs:
