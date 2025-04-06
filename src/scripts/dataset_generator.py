@@ -48,8 +48,10 @@ def wrong_city() -> str:
    return fake.city()
 
 def change_case(text: str) -> str:
-    return text.upper() if random.random() < 0.5 else text.lower() 
+    return text.upper() if random.random() < 0.5 else text.lower()  
 
+def remove_field(text: str) -> str:
+    return None if random.random() < 0.5 else text
 
 # Apply multiple corruptions
 def corrupt_text(text: str, corruption_funcs: list) -> str:
