@@ -39,12 +39,21 @@ def add_random_char(text: str) -> str:
     c = random.choice(string.ascii_letters) # Choose random letter
     return text[:i] + c + text[i:] 
 
+def wrong_postal_code(postal_code: str) -> str:
+    i = random.randint(0, 4)
+    digit = str(random.randint(0,9))
+    return postal_code[:i] + digit + postal_code[i+1:]
+
+
+
 # Apply multiple corruptions
 def corrupt_text(text: str, corruption_funcs: list) -> str:
     for func in corruption_funcs:
         if random.random() < 0.5:
             text = func(text)
     return text
+
+
 
 # --- Main Generator ---
 def generate_dataset(n_rows: int) -> pd.DataFrame:
