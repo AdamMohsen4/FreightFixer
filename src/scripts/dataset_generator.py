@@ -44,8 +44,11 @@ def wrong_postal_code(postal_code: str) -> str:
     digit = str(random.randint(0,9))
     return postal_code[:i] + digit + postal_code[i+1:]
 
-def wrong_city() -> str:
-   return fake.city()
+def wrong_city(text: str) -> str:
+  if random.random() < 0.1: 
+      return fake.city()
+  else:
+      return text
 
 def change_case(text: str) -> str:
     return text.upper() if random.random() < 0.5 else text.lower()  
@@ -74,11 +77,11 @@ def generate_dataset(n_rows: int) -> pd.DataFrame:
         company = fake.company()
 
         # Corruption
-        noisy_street = corrupt_text(street, [introduce_typo, remove_random_character])
-        noisy_name = corrupt_text(name, [introduce_typo, remove_random_character])
-        noisy_company = corrupt_text(company, [introduce_typo, remove_random_character])
-        noisy_postal= corrupt_text(postal_code, [introduce_typo, remove_random_character])
-        noisy_city = corrupt_text(city, [introduce_typo, remove_random_character])
+        noisy_street = corrupt_text(street, [introduce_typo, remove_random_character, add_random_char])
+        noisy_city = corrupt_text(city, [change_case, introduce_typo, wrong_city])
+        noisy_name = corrupt_text(name, [introduce_typo, remove_random_character, add_random_char])
+        noisy_company = wrong_postal_code(postal_code) if random.random() < 0.3 else postal_code
+        noisy_postal = corrupt_text(postal_code, [wrong_postal_code, remove_field],)
 
         # Missing fields
         if random.random() < 0.1: #meaning 10% of the time
