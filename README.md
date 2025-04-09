@@ -3,7 +3,7 @@ A desktop application for detecting and correcting misspelled shipping destinati
 
 
  **Features:**
-- **Modern Desktop GUI**: Built with Electron and TypeScript
+- **GUI**: Built with Electron and TypeScript
 - **Data Generation**: Synthetic dataset generator for training and testing
 - **Address Validation**: Automated detection of typographical errors
 - **Correction Suggestions**: ML-powered suggestions for address corrections
