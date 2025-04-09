@@ -1,27 +1,27 @@
 # FreightFixer
-AI-powered tool designed to detect and correct misspelled shipping destination data. It leverages machine learning to analyze shipment records, suggest corrections, and update data after user confirmation, helping businesses reduce delivery errors and improve operational efficiency.
+A desktop application for detecting and correcting misspelled shipping destination data. It uses machine learning to analyze shipment records, suggest corrections, and update data after user confirmation.
+
 
  **Features:**
-   - Automated detection of typographical errors in shipment addresses.
-   -  Typography corrections using ML models 
-   -  GUI for reviewing and confirming changes.
-   -  Integration capability with external address validation APIs.
-   -  Batch processing for large datasets.
-    
-**Tech Stack:**
-  - **Languages:** Python, TypeScript, HTML
-  - **Dependencies:**
-  - **Machine Learning:** scikit-learn, PyTorch; (spaCy) for NLP tasks
-  - **Backend Framework:** Flask for RESTful API development
-  - **Database:** PostgreSQL (relational data)
+- **Modern Desktop GUI**: Built with Electron and TypeScript
+- **Data Generation**: Synthetic dataset generator for training and testing
+- **Address Validation**: Automated detection of typographical errors
+- **Correction Suggestions**: ML-powered suggestions for address corrections
+- **User Confirmation**: GUI for reviewing and confirming changes
 
-  - **Other Tools:** Git for version control
+**Tech Stack:**
+- **Frontend**: Electron, TypeScript, HTML/CSS
+- **Backend**: Python for data processing and ML
+- **Data Generation**: Faker library for synthetic data
+- **Machine Learning**: (Planned) scikit-learn, PyTorch
+- **Database**: (Planned) PostgreSQL
 
 ## Running the Application
 
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm (v6 or higher)
+- Python 3.8+ (for data generation)
 
 ### Installation
 1. Clone the repository:
@@ -32,7 +32,11 @@ cd FreightFixer
 
 2. Install dependencies:
 ```bash
+# Install Node.js dependencies
 npm install
+
+# Install Python dependencies
+pip install pandas faker
 ```
 
 ### Development
@@ -46,25 +50,44 @@ This will:
 - Start the Electron application
 - Open the development tools (if in development mode)
 
-### Production Build
-To create a production build:
+### Data Generation
+To generate synthetic shipment data:
 ```bash
-npm run build
+python src/scripts/dataset_generator.py
 ```
 
-The compiled files will be available in the `dist` directory.
+This will create a CSV file with clean and noisy address data for training and testing.
+
+## Project Structure
+
+- `src/`: Source code
+  - `main.ts`: Electron main process
+  - `index.html`: Main application UI
+  - `renderer.ts`: UI interaction logic
+  - `scripts/`: Python scripts
+    - `dataset_generator.py`: Synthetic data generator
+
+
 
 ## ML Development
 
-- **Data Collection & Preprocessing:**
-  - Collect real-world shipment data (or mock data), including:
-    - Addresses (correct and incorrect), cities, postal codes, volumes, etc.
-  - Preprocess data to:
-    - Remove duplicates and irrelevant entries.
-    - Standardize formats (e.g., street abbreviations, casing, header uniformity).
-    - Handle missing or incomplete entries with appropriate strategies.
-   
-   - **Model Deployment:**
+### Data Preparation
+- Synthetic data generation using the `dataset_generator.py` script
+- Data includes clean and noisy versions of addresses for training
+- Features include name, company, street, postal code, and city
+
+### Model Architecture
+- **Address Correction**: Sequence-to-sequence model for text correction
+- **Error Detection**: Binary classification to identify errors in addresses
+- **Postal Code Validation**: Rule-based validation with ML enhancement
+
+### Integration with GUI
+- Model served via REST API
+- Real-time correction suggestions in the UI
+- Batch processing for large datasets
+- Confidence scores for user decisions
+
+  ### Model Deployment:
   - Package the trained model using Flask 
   - Create an API endpoint to:
     - Accept shipment data inputs.
