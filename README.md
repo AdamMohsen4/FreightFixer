@@ -4,7 +4,7 @@ A web application for detecting and correcting misspelled shipping destination d
 
 **Features:**
 
-- **GUI**: Built with Vite, React, and TypeScript
+- **GUI**: Built with Vite, React, TypeScript, and shadcn/ui
 - **Data Generation**: Synthetic dataset generator for training and testing
 - **Address Validation**: Automated detection of typographical errors
 - **Correction Suggestions**: ML-powered suggestions for address corrections
@@ -12,7 +12,10 @@ A web application for detecting and correcting misspelled shipping destination d
 
 **Tech Stack:**
 
-- **Frontend**: Vite, React, TypeScript, Tailwind CSS
+- **Frontend**:
+  - Vite + React + TypeScript
+  - shadcn/ui for beautiful, accessible components
+  - Tailwind CSS for styling
 - **Backend**: Python for data processing and ML
 - **Data Generation**: Faker library for synthetic data
 - **Machine Learning**: (Planned) scikit-learn, PyTorch
@@ -75,6 +78,7 @@ This will create a CSV file with clean and noisy address data for training and t
   - `main.tsx`: Application entry point
   - `App.tsx`: Main application component
   - `components/`: React components
+    - `ui/`: shadcn/ui components
   - `scripts/`: Python scripts
     - `dataset_generator.py`: Synthetic data generator
 
