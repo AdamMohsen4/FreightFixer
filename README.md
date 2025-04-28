@@ -16,6 +16,7 @@ A web application for detecting and correcting misspelled shipping destination d
   - Vite + React + TypeScript
   - shadcn/ui for beautiful, accessible components
   - Tailwind CSS for styling
+  - React Router for navigation and routing
 - **Backend**: Python for data processing and ML
 - **Data Generation**: Faker library for synthetic data
 - **Machine Learning**: (Planned) scikit-learn, PyTorch
@@ -75,8 +76,9 @@ This will create a CSV file with clean and noisy address data for training and t
 ## Project Structure
 
 - `src/`: Source code
-  - `main.tsx`: Application entry point
-  - `App.tsx`: Main application component
+  - `main.tsx`: Application entry point with BrowserRouter setup
+  - `App.tsx`: Main application component with route definitions
+  - `pages/`: Application pages
   - `components/`: React components
     - `ui/`: shadcn/ui components
   - `scripts/`: Python scripts
