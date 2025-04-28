@@ -1,16 +1,18 @@
 # FreightFixer
-A desktop application for detecting and correcting misspelled shipping destination data. It uses machine learning to analyze shipment records, suggest corrections, and update data after user confirmation.
 
+A web application for detecting and correcting misspelled shipping destination data. It uses machine learning to analyze shipment records, suggest corrections, and update data after user confirmation.
 
- **Features:**
-- **GUI**: Built with Electron and TypeScript
+**Features:**
+
+- **GUI**: Built with Vite, React, and TypeScript
 - **Data Generation**: Synthetic dataset generator for training and testing
 - **Address Validation**: Automated detection of typographical errors
 - **Correction Suggestions**: ML-powered suggestions for address corrections
-- **User Confirmation**: GUI for reviewing and confirming changes
+- **User Confirmation**: Web interface for reviewing and confirming changes
 
 **Tech Stack:**
-- **Frontend**: Electron, TypeScript, HTML/CSS
+
+- **Frontend**: Vite, React, TypeScript, Tailwind CSS
 - **Backend**: Python for data processing and ML
 - **Data Generation**: Faker library for synthetic data
 - **Machine Learning**: (Planned) scikit-learn, PyTorch
@@ -19,18 +21,22 @@ A desktop application for detecting and correcting misspelled shipping destinati
 ## Running the Application
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+
+- Node.js (v18 or higher)
+- npm (v8 or higher)
 - Python 3.8+ (for data generation)
 
 ### Installation
+
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/FreightFixer.git
 cd FreightFixer
 ```
 
 2. Install dependencies:
+
 ```bash
 # Install Node.js dependencies
 npm install
@@ -40,18 +46,23 @@ pip install pandas faker
 ```
 
 ### Development
+
 To run the application in development mode:
+
 ```bash
 npm run dev
 ```
 
 This will:
-- Compile the TypeScript files
-- Start the Electron application
-- Open the development tools (if in development mode)
+
+- Start the Vite development server
+- Open the application in your default browser
+- Enable hot module replacement for fast development
 
 ### Data Generation
+
 To generate synthetic shipment data:
+
 ```bash
 python src/scripts/dataset_generator.py
 ```
@@ -61,37 +72,36 @@ This will create a CSV file with clean and noisy address data for training and t
 ## Project Structure
 
 - `src/`: Source code
-  - `main.ts`: Electron main process
-  - `index.html`: Main application UI
-  - `renderer.ts`: UI interaction logic
+  - `main.tsx`: Application entry point
+  - `App.tsx`: Main application component
+  - `components/`: React components
   - `scripts/`: Python scripts
     - `dataset_generator.py`: Synthetic data generator
-
-
 
 ## ML Development
 
 ### Data Preparation
+
 - Synthetic data generation using the `dataset_generator.py` script
 - Data includes clean and noisy versions of addresses for training
 - Features include name, company, street, postal code, and city
 
 ### Model Architecture
+
 - **Address Correction**: Sequence-to-sequence model for text correction
 - **Error Detection**: Binary classification to identify errors in addresses
 - **Postal Code Validation**: Rule-based validation with ML enhancement
 
-### Integration with GUI
+### Integration with Frontend
+
 - Model served via REST API
 - Real-time correction suggestions in the UI
 - Batch processing for large datasets
 - Confidence scores for user decisions
 
-  ### Model Deployment:
-  - Package the trained model using Flask 
-  - Create an API endpoint to:
-    - Accept shipment data inputs.
-    - Return suggested corrections with confidence scores.
+### Model Deployment:
 
-
-
+- Package the trained model using Flask
+- Create an API endpoint to:
+  - Accept shipment data inputs.
+  - Return suggested corrections with confidence scores.
