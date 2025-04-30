@@ -17,10 +17,14 @@ A web application for detecting and correcting misspelled shipping destination d
   - shadcn/ui for beautiful, accessible components
   - Tailwind CSS for styling
   - React Router for navigation and routing
-- **Backend**: Python for data processing and ML
-- **Data Generation**: Faker library for synthetic data
-- **Machine Learning**: (Planned) scikit-learn, PyTorch
-- **Database**: (Planned) PostgreSQL
+- **Backend**:
+  - Flask for API server
+  - PyTorch for ML model serving
+  - CORS support for frontend-backend communication
+- **Machine Learning**:
+  - Sequence-to-sequence model for text correction
+  - Character-level encoding for robust error handling
+  - Pre-trained model for city name correction
 
 ## Running the Application
 
@@ -28,7 +32,8 @@ A web application for detecting and correcting misspelled shipping destination d
 
 - Node.js (v18 or higher)
 - npm (v8 or higher)
-- Python 3.8+ (for data generation)
+- Python 3.8+ (for backend and ML)
+- CUDA-capable GPU (optional, for faster ML inference)
 
 ### Installation
 
@@ -39,29 +44,35 @@ git clone https://github.com/yourusername/FreightFixer.git
 cd FreightFixer
 ```
 
-2. Install dependencies:
+2. Install frontend dependencies:
 
 ```bash
-# Install Node.js dependencies
 npm install
+```
 
-# Install Python dependencies
-pip install pandas faker
+3. Install backend dependencies:
+
+```bash
+cd src/backend
+pip install -r requirements.txt
 ```
 
 ### Development
 
-To run the application in development mode:
+1. Start the backend server:
+
+```bash
+cd src/backend
+python app.py
+```
+
+2. In a separate terminal, start the frontend development server:
 
 ```bash
 npm run dev
 ```
 
-This will:
-
-- Start the Vite development server
-- Open the application in your default browser
-- Enable hot module replacement for fast development
+3. Open your browser to `http://localhost:5173` (or the port shown in your terminal)
 
 ### Data Generation
 
@@ -79,35 +90,50 @@ This will create a CSV file with clean and noisy address data for training and t
   - `main.tsx`: Application entry point with BrowserRouter setup
   - `App.tsx`: Main application component with route definitions
   - `pages/`: Application pages
+    - `Dashboard.tsx`: Main interface with city correction feature
+    - `Welcome.tsx`: Landing page
   - `components/`: React components
     - `ui/`: shadcn/ui components
+  - `services/`: API service layer
+    - `cityCorrection.ts`: ML model API client
+  - `backend/`: Flask backend
+    - `app.py`: API server and ML model serving
+    - `requirements.txt`: Python dependencies
+  - `ml/`: Machine learning models
+    - `city_correction_model.pth`: Pre-trained model
+    - `model_vocab.pkl`: Model vocabulary
   - `scripts/`: Python scripts
     - `dataset_generator.py`: Synthetic data generator
 
 ## ML Development
 
-### Data Preparation
-
-- Synthetic data generation using the `dataset_generator.py` script
-- Data includes clean and noisy versions of addresses for training
-- Features include name, company, street, postal code, and city
-
 ### Model Architecture
 
-- **Address Correction**: Sequence-to-sequence model for text correction
-- **Error Detection**: Binary classification to identify errors in addresses
-- **Postal Code Validation**: Rule-based validation with ML enhancement
+- **Sequence-to-Sequence Model**: LSTM-based encoder-decoder architecture
+- **Character-level Processing**: Handles arbitrary input lengths
+- **Vocabulary**: Custom character-level vocabulary for robust error handling
 
-### Integration with Frontend
+### Model Integration
 
-- Model served via REST API
-- Real-time correction suggestions in the UI
-- Batch processing for large datasets
-- Confidence scores for user decisions
+The ML model is served via a Flask API endpoint that:
+- Accepts city names as input
+- Returns corrected versions with confidence scores
+- Handles preprocessing and postprocessing of text
 
-### Model Deployment:
+### Using the Model
 
-- Package the trained model using Flask
-- Create an API endpoint to:
-  - Accept shipment data inputs.
-  - Return suggested corrections with confidence scores.
+1. Enter a potentially misspelled city name in the dashboard
+2. The model will process the input and suggest corrections
+3. Review and confirm the suggested corrections
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+ISC
