@@ -6,7 +6,7 @@ import numpy as np
 from pathlib import Path
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)  # Enable CORS for all routes. 
 
 # Load the model and vocabulary
 model_path = Path(__file__).parent.parent / 'ml' / 'city_correction_model.pth'
@@ -101,10 +101,14 @@ def preprocess_input(text):
     return torch.tensor(indices, dtype=torch.long).unsqueeze(0)
 
 def postprocess_output(output):
-    # Convert model output to text
+    # Convert model output to text and calculate confidence
     indices = torch.argmax(output, dim=2).squeeze(0).tolist()
+    probabilities = torch.softmax(output, dim=2).squeeze(0)
+    confidence_scores = [probabilities[i, idx].item() for i, idx in enumerate(indices)]
     text = ''.join([idx2char.get(idx, '') for idx in indices])
-    return text.strip()
+    # Calculate average confidence score
+    avg_confidence = sum(confidence_scores) / len(confidence_scores)
+    return text.strip(), avg_confidence
 
 @app.route('/correct_city', methods=['POST'])
 def correct_city():
@@ -122,11 +126,12 @@ def correct_city():
         output = model(input_tensor)
     
     # Postprocess output
-    corrected_city = postprocess_output(output)
+    corrected_city, confidence = postprocess_output(output)
     
     return jsonify({
         'original': city,
-        'corrected': corrected_city
+        'corrected': corrected_city,
+        'confidence': confidence
     })
 
 if __name__ == '__main__':

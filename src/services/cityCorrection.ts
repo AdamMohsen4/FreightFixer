@@ -3,6 +3,7 @@ const API_URL = 'http://localhost:5000';
 export interface CityCorrectionResponse {
   original: string;
   corrected: string;
+  confidence: number;
 }
 
 export async function correctCity(city: string): Promise<CityCorrectionResponse> {
@@ -19,4 +20,4 @@ export async function correctCity(city: string): Promise<CityCorrectionResponse>
   }
 
   return response.json();
-} 
+}
