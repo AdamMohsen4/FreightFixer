@@ -2,6 +2,10 @@
 
 A web application for detecting and correcting misspelled shipping destination data. It uses machine learning to analyze shipment records, suggest corrections, and update data after user confirmation.
 
+## Demo
+The following is an example of the application in action. The user inputs a misspelled city name, and the application suggests corrections. The user can then confirm the correction, and the application will update the data (coming soon).
+![Demo](./src/assets/correction_example.png)
+
 **Features:**
 
 - **GUI**: Built with Vite, React, TypeScript, and shadcn/ui
@@ -122,7 +126,7 @@ The ML model is served via a Flask API endpoint that:
 
 ### Using the Model
 
-1. Enter a potentially misspelled city name in the dashboard
+1. Enter a potentially misspelled city name in the correction page
 2. The model will process the input and suggest corrections
 3. Review and confirm the suggested corrections
 
@@ -133,6 +137,13 @@ The ML model is served via a Flask API endpoint that:
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
+
+
+## Future Work
+- Improve the model with realistic data, and solve potential overfitting/generalization issues.
+- Add more features to the dashboard
+- Add more tests
+- Add more documentation
 
 ## License
 
