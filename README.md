@@ -61,6 +61,22 @@ cd src/backend
 pip install -r requirements.txt
 ```
 
+If you use Homebrew's Python, it's best to use a virtual environment:
+
+```bash
+# From the project root
+python3 -m venv venv
+source venv/bin/activate
+cd src/backend
+pip install -r requirements.txt
+```
+
+When developing, always activate your venv first:
+
+```bash
+source venv/bin/activate
+```
+
 ### Development
 
 1. Start the backend server:
