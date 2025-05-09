@@ -1,6 +1,8 @@
 import type * as React from "react";
 import { useState } from "react";
-import { Download, Upload, X } from "lucide-react";
+import { Download, FileText, Upload, X } from "lucide-react";
+
+import templateCsvPath from "../assets/shipment-import-template.csv?url";
 
 import { Button } from "./ui/button";
 import {
@@ -75,9 +77,13 @@ export function ImportShipmentsSheet({
   };
 
   const handleDownloadTemplate = () => {
-    toast.success("Template downloaded", {
-      description: "shipment-import-template.csv has been downloaded.",
-    });
+    const link = document.createElement("a");
+    link.href = templateCsvPath;
+    link.download = "shipment-import-template.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -144,41 +150,7 @@ export function ImportShipmentsSheet({
             >
               <div className="flex items-center gap-3">
                 <div className="bg-muted p-2 rounded">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="4"
-                      y="2"
-                      width="16"
-                      height="20"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M8 7H16"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M8 12H16"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M8 17H12"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <FileText size={20} />
                 </div>
                 <span className="text-sm font-medium">
                   shipment-import-template.csv
