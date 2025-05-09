@@ -119,6 +119,7 @@ def correct_city():
         return jsonify({'error': 'No city provided'}), 400
     
     # Preprocess input
+    city = city.lower().strip() # Uppercase failed the model
     input_tensor = preprocess_input(city)
     
     # Run model
@@ -127,6 +128,10 @@ def correct_city():
     
     # Postprocess output
     corrected_city, confidence = postprocess_output(output)
+    
+    # Make the first letter uppercase
+    if corrected_city:
+        corrected_city = corrected_city[0].upper() + corrected_city[1:]
     
     return jsonify({
         'original': city,

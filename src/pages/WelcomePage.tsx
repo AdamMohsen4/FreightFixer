@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router";
-import { Button } from "../components/ui/button";
 import { useRef } from "react";
+import { useNavigate } from "react-router";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(useGSAP);
 
@@ -17,7 +18,7 @@ interface EmojiProps {
   skewY: number;
 }
 
-export default function Welcome() {
+export default function WelcomePage() {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const emojisRef = useRef<EmojiProps[]>([]);
@@ -192,7 +193,7 @@ export default function Welcome() {
 
   const handleGetStarted = contextSafe(() => {
     const goToDashboard = () => {
-      navigate("/dashboard");
+      navigate("/shipments");
       return;
     };
 

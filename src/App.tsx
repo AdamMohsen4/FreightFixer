@@ -1,12 +1,23 @@
 import { Routes, Route } from "react-router";
-import Welcome from "./pages/Welcome";
-import Dashboard from "./pages/CorrectionPage";
+import WelcomePage from "./pages/WelcomePage";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "./components/AppSidebar";
+import ShipmentsPage from "./pages/ShipmentsPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Welcome />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<WelcomePage />} />
+
+      <Route
+        element={
+          <SidebarProvider defaultOpen={false}>
+            <AppSidebar />
+          </SidebarProvider>
+        }
+      >
+        <Route path="shipments" element={<ShipmentsPage />} />
+      </Route>
     </Routes>
   );
 }
