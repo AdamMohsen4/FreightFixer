@@ -1,6 +1,6 @@
 import type * as React from "react";
 import { useState } from "react";
-import { Download, FileText, Upload, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import templateCsvPath from "../assets/shipment-import-template.csv?url";
 
@@ -14,6 +14,12 @@ import {
   SheetFooter,
 } from "./ui/sheet";
 import { toast } from "sonner";
+import { shipmentFormSchema } from "@/lib/schemas/shipment";
+import { processShipmentImport } from "@/lib/csv-utils";
+import { FileUploadArea } from "./FileUploadArea";
+import { TemplateDownload } from "./TemplateDownload";
+import { ImportProgress } from "./ImportProgress";
+import { ImportResults, ImportStats } from "./ImportResults";
 
 interface ImportShipmentsSheetProps {
   open: boolean;
@@ -27,6 +33,8 @@ export function ImportShipmentsSheet({
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [importProgress, setImportProgress] = useState(0);
+  const [importStats, setImportStats] = useState<ImportStats | null>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -63,17 +71,49 @@ export function ImportShipmentsSheet({
     if (!file) return;
 
     setIsUploading(true);
+    setImportProgress(0);
+    setImportStats(null);
 
-    // Simulate file upload
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Read the file content
+      const text = await file.text();
+      
+      // Process the CSV data
+      const stats = await processShipmentImport(
+        text,
+        shipmentFormSchema,
+        (progress) => setImportProgress(progress)
+      );
 
-    toast.success("Import successful", {
-      description: `${file.name} has been imported successfully.`,
-    });
+      setImportStats(stats);
 
-    setIsUploading(false);
-    setFile(null);
-    onOpenChange(false);
+      // Show appropriate toast based on results
+      if (stats.failed === 0) {
+        toast.success("Import successful", {
+          description: `${stats.successful} shipments have been imported successfully.`,
+        });
+        setFile(null);
+        setTimeout(() => {
+          onOpenChange(false);
+          setImportStats(null);
+        }, 2000);
+      } else if (stats.successful === 0) {
+        toast.error("Import failed", {
+          description: `All ${stats.total} shipments failed to import. Please check the errors.`,
+        });
+      } else {
+        toast.warning("Import partially successful", {
+          description: `${stats.successful} shipments imported, ${stats.failed} failed.`,
+        });
+      }
+    } catch (error) {
+      toast.error("Import failed", {
+        description: error instanceof Error ? error.message : "An error occurred while processing the CSV file.",
+      });
+      console.error("CSV import error:", error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleDownloadTemplate = () => {
@@ -110,62 +150,30 @@ export function ImportShipmentsSheet({
             </p>
           </div>
 
-          <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center ${
-              isDragging
-                ? "border-[#0F52BA] bg-[#0F52BA]/5"
-                : "border-muted-foreground/20"
-            } hover:border-[#0F52BA] hover:bg-[#0F52BA]/5 transition-colors cursor-pointer`}
+          <FileUploadArea
+            isDragging={isDragging}
+            file={file}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            onClick={() => document.getElementById("file-upload")?.click()}
-          >
-            <input
-              id="file-upload"
-              type="file"
-              accept=".csv"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
-            <h4 className="text-base font-medium mb-2">Import Shipments</h4>
-            <p className="text-sm text-muted-foreground">
-              {file ? file.name : "Drag and drop a CSV file or click to upload"}
-            </p>
-          </div>
+            onFileChange={handleFileChange}
+          />
 
-          <div>
-            <h3 className="text-base font-semibold">
-              Unsure about how to arrange your list?
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Download the template below to ensure you are following the
-              correct format.
-            </p>
-
-            <div
-              className="flex items-center justify-between mt-4 p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
-              onClick={handleDownloadTemplate}
-            >
-              <div className="flex items-center gap-3">
-                <div className="bg-muted p-2 rounded">
-                  <FileText size={20} />
-                </div>
-                <span className="text-sm font-medium">
-                  shipment-import-template.csv
-                </span>
-              </div>
-              <Download className="h-4 w-4 text-muted-foreground" />
-            </div>
-          </div>
+          <TemplateDownload onDownload={handleDownloadTemplate} />
         </div>
+
+        {isUploading && <ImportProgress progress={importProgress} />}
+
+        {importStats && !isUploading && <ImportResults stats={importStats} />}
 
         <SheetFooter className="flex justify-between border-t p-4">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => onOpenChange(false)}
+            onClick={() => {
+              setImportStats(null);
+              onOpenChange(false);
+            }}
           >
             Cancel
           </Button>
